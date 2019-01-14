@@ -1,8 +1,10 @@
+import 'package:diagnosa/moduls/diagnosa/diagnosa.dart';
 import 'package:diagnosa/utils/colors.dart';
 import 'package:diagnosa/widget/clipper/diagonal_clipper.dart';
 import 'package:diagnosa/widget/clipper/diagonal_clipper_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 
 class BerandaPage extends StatefulWidget {
   BerandaPage({Key key, this.title}) : super(key: key);
@@ -16,6 +18,8 @@ class BerandaPage extends StatefulWidget {
 
 class _BerandaPageState extends State<BerandaPage>
     with SingleTickerProviderStateMixin {
+  static BuildContext ctx;
+
   Widget _header = ClipPath(
     clipper: DiagonalClipper(),
     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -87,12 +91,14 @@ class _BerandaPageState extends State<BerandaPage>
       children: <Widget>[
         InkWell(
           onTap: () {
-            Fluttertoast.showToast(
-                msg: "Diagnosa",
-                toastLength: Toast.LENGTH_SHORT,
-                timeInSecForIos: 1,
-                backgroundColor: Colors.lightGreen,
-                textColor: Colors.white);
+            // Fluttertoast.showToast(
+            //     msg: "Diagnosa",
+            //     toastLength: Toast.LENGTH_SHORT,
+            //     timeInSecForIos: 1,
+            //     backgroundColor: Colors.lightGreen,
+            //     textColor: Colors.white);
+            // _showDialog();
+            _navigate();
           },
           child: Card(
             color: Colors.white,
@@ -191,6 +197,16 @@ class _BerandaPageState extends State<BerandaPage>
       ],
     ),
   );
+
+  static void _navigate() {
+    Navigator.of(ctx).pushNamed(DiagnosaPage.tag);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    ctx = context;
+  }
 
   @override
   Widget build(BuildContext context) {
