@@ -4,7 +4,6 @@ import 'package:diagnosa/widget/clipper/diagonal_clipper.dart';
 import 'package:diagnosa/widget/clipper/diagonal_clipper_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 
 class BerandaPage extends StatefulWidget {
   BerandaPage({Key key, this.title}) : super(key: key);
