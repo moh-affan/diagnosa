@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:diagnosa/moduls/diagnosa/data_master.dart';
@@ -58,7 +59,6 @@ class _DiagnosaPageState extends State<DiagnosaPage>
       }
       //tampilkan dialog selanjutnya atau munculkan hasil diagnosa
       _answerMap.forEach(_findDiagnozed);
-      print(_diagnozed);
       if (_diagnozed == '') {
         SweetAlert.close(closeWithAnimation: true);
         _askQuestion(gejala.keys.toList()[++_currentQestion],
@@ -126,7 +126,8 @@ class _DiagnosaPageState extends State<DiagnosaPage>
   @override
   void initState() {
     super.initState();
-    _askQuestion(gejala.keys.toList()[0], gejala.values.toList()[0]);
+    Timer(Duration(seconds: 2),
+        () => _askQuestion(gejala.keys.toList()[0], gejala.values.toList()[0]));
   }
 
   @override
