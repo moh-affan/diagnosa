@@ -1,4 +1,5 @@
 import 'package:diagnosa/moduls/diagnosa/diagnosa.dart';
+import 'package:diagnosa/moduls/penyakit/penyakit.dart';
 import 'package:diagnosa/utils/colors.dart';
 import 'package:diagnosa/widget/clipper/diagonal_clipper.dart';
 import 'package:diagnosa/widget/clipper/diagonal_clipper_bottom.dart';
@@ -145,12 +146,7 @@ class _BerandaPageState extends State<BerandaPage>
         ),
         InkWell(
           onTap: () {
-            Fluttertoast.showToast(
-                msg: "Penyakit",
-                toastLength: Toast.LENGTH_SHORT,
-                timeInSecForIos: 1,
-                backgroundColor: Colors.lightGreen,
-                textColor: Colors.white);
+            _navigatePenyakit();
           },
           child: Card(
             color: Colors.white,
@@ -199,6 +195,10 @@ class _BerandaPageState extends State<BerandaPage>
 
   static void _navigate() {
     Navigator.of(ctx).pushNamed(DiagnosaPage.tag);
+  }
+
+  static void _navigatePenyakit() {
+    Navigator.of(ctx).pushNamed(PenyakitPage.tag);
   }
 
   @override

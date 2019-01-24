@@ -5,6 +5,7 @@ import 'package:diagnosa/moduls/diagnosa/data_master.dart';
 import 'package:diagnosa/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
+import 'package:gradient_app_bar/gradient_app_bar.dart';
 
 class DiagnosaPage extends StatefulWidget {
   DiagnosaPage({Key key, this.title}) : super(key: key);
@@ -82,47 +83,6 @@ class _DiagnosaPageState extends State<DiagnosaPage>
     });
   }
 
-  void _showDialog() {
-    SweetAlert.dialog(
-      type: AlertType.WARNING,
-      cancelable: true,
-      title: "Title",
-      content: "Content",
-      showCancel: true,
-      cancelButtonText: "Cancel",
-      confirmButtonText: "Confirm",
-      closeOnConfirm: false,
-      closeOnCancel: false,
-    ).then((value) {
-      print(value);
-      if (value) {
-        SweetAlert.update(
-          type: AlertType.SUCCESS,
-          cancelable: true,
-          title: "done",
-          content: "you pressed confirm",
-          showCancel: false,
-          closeOnConfirm: true,
-          confirmButtonText: "Confirm",
-        ).then((value) {
-          print(value);
-        });
-      } else {
-        SweetAlert.update(
-          type: AlertType.SUCCESS,
-          cancelable: true,
-          title: "canceled",
-          content: "you pressed cancel",
-          showCancel: false,
-          closeOnConfirm: true,
-          confirmButtonText: "Confirm",
-        ).then((value) {
-          print(value);
-        });
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -133,11 +93,11 @@ class _DiagnosaPageState extends State<DiagnosaPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Quepal.start,
+        appBar: GradientAppBar(
+          title: Text('Diagnosa'),
           centerTitle: true,
-          title: Text("Diagnosa"),
-          toolbarOpacity: 0.9,
+          backgroundColorEnd: BlueRaspberry.end,
+          backgroundColorStart: BlueRaspberry.start,
         ),
         body: Container(
           decoration: BoxDecoration(
