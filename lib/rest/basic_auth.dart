@@ -14,12 +14,14 @@ class BasicAuth {
 
   _genAuth() => 'Basic ' + base64Encode(utf8.encode('$_username:$_password'));
 
-  void withApiKey(String apiKey) {
+  BasicAuth withApiKey(String apiKey) {
     _authHeader.addAll({'x-api-key': apiKey});
+    return this;
   }
 
-  void setBaseUrl(String baseUrl) {
+  BasicAuth setBaseUrl(String baseUrl) {
     _url = baseUrl;
+    return this;
   }
 
   Future<http.Response> get(String url, {Map<String, String> headers}) {
@@ -28,9 +30,10 @@ class BasicAuth {
     return http.get(url, headers: headers);
   }
 
-  Future<http.Response> post(String url, {Map<String, String> headers, body,  Encoding encoding}) {
+  Future<http.Response> post(String url,
+      {Map<String, String> headers, body, Encoding encoding}) {
     headers.addAll(_authHeader);
     if (_url != null) url = _url + url;
-    return http.post(url, headers: headers, body: body,  encoding: encoding);
+    return http.post(url, headers: headers, body: body, encoding: encoding);
   }
 }
