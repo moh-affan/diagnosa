@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:diagnosa/moduls/diagnosa/data_master.dart';
+import 'package:diagnosa/moduls/penyakit/detail_penyakit.dart';
 import 'package:diagnosa/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
@@ -34,6 +35,10 @@ class _DiagnosaPageState extends State<DiagnosaPage>
   };
   var _currentQestion = 0;
   var _diagnozed = '';
+  var master = Master();
+  var gejala;
+  var penyakit;
+  var gejalaPenyakit;
 
   void _findDiagnozed(String k, int v) {
     if (v >= 4) _diagnozed = k;
@@ -73,21 +78,47 @@ class _DiagnosaPageState extends State<DiagnosaPage>
           title: "Hasil Diagnosa",
           content:
               "Berdasarkan gejala-gejala yang telah Anda jawab, kami mendiagnosa bahwa Anda mengalami : $hasil",
-          showCancel: false,
-          closeOnConfirm: true,
-          confirmButtonText: "Tutup",
+          showCancel: true,
+          closeOnConfirm: false,
+          cancelButtonText: "Tutup",
+          confirmButtonText: "Solusi",
         ).then((value) {
-          Navigator.pop(context);
+          if (value) {
+            SweetAlert.close(closeWithAnimation: true);
+            viewDetail(_diagnozed);
+          }
+          // Navigator.pop(context);
         });
       }
     });
   }
 
+  viewDetail(String idPenyakit) async {
+    var p = await master.getPenyakit(idPenyakit);
+    var g = await master.getGejalaPenyakit(idPenyakit);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetailPenyakitPage(
+              penyakit: p,
+              gejala: g.values.join('\n'),
+            ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+    initDb();
     Timer(Duration(seconds: 2),
         () => _askQuestion(gejala.keys.toList()[0], gejala.values.toList()[0]));
+  }
+
+  initDb() async {
+    gejala = await master.gejala();
+    penyakit = await master.penyakit();
+    gejalaPenyakit = await master.gejalaPenyakit();
   }
 
   @override

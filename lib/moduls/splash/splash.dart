@@ -5,6 +5,7 @@ import 'package:diagnosa/moduls/beranda/beranda.dart';
 import 'package:diagnosa/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SplashPage extends StatefulWidget {
   SplashPage({Key key}) : super(key: key);
@@ -15,6 +16,8 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  List<PermissionGroup> permissions = new List<PermissionGroup>();
+
   void _navigateNext() {
     Navigator.of(context).pushReplacementNamed(BerandaPage.tag);
   }
@@ -27,7 +30,20 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    checkPermissions();
     _startTime();
+  }
+
+  checkPermissions() async {
+    PermissionStatus permissionStatus =
+        await PermissionHandler.checkPermissionStatus(PermissionGroup.storage);
+    if (permissionStatus != PermissionStatus.granted)
+      permissions.add(PermissionGroup.storage);
+    await requestPermission();
+  }
+
+  requestPermission() async {
+    await PermissionHandler.requestPermissions([PermissionGroup.storage]);
   }
 
   @override
@@ -50,7 +66,7 @@ class _SplashPageState extends State<SplashPage> {
                   height: 10.0,
                 ),
                 Text(
-                  'Versi '+App.VERSION,
+                  'Versi ' + App.VERSION,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 12, color: Colors.black87),
                 )

@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:diagnosa/models.dart';
 import 'package:diagnosa/moduls/diagnosa/data_master.dart';
+import 'package:diagnosa/moduls/penyakit/detail_penyakit.dart';
 import 'package:diagnosa/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,9 +20,35 @@ class PenyakitPage extends StatefulWidget {
 
 class _PenyakitPageState extends State<PenyakitPage>
     with SingleTickerProviderStateMixin {
+  var master = Master();
+  Map<String, String> penyakit = new Map();
+  Penyakit py;
   @override
   void initState() {
     super.initState();
+    initData();
+  }
+
+  initData() async {
+    var p = await master.penyakit();
+    setState(() {
+      penyakit = p;
+    });
+  }
+
+  viewDetail(String idPenyakit) async {
+    var p = await master.getPenyakit(idPenyakit);
+    var g = await master.getGejalaPenyakit(idPenyakit);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetailPenyakitPage(
+              penyakit: p,
+              gejala: g.values.join('\n'),
+            ),
+      ),
+    );
   }
 
   @override
@@ -44,6 +72,7 @@ class _PenyakitPageState extends State<PenyakitPage>
               children: List.generate(penyakit.length, (index) {
                 return InkWell(
                   onTap: () {
+                    viewDetail(penyakit.keys.toList()[index]);
                     Fluttertoast.showToast(
                         msg: penyakit.values.toList()[index],
                         toastLength: Toast.LENGTH_SHORT,
