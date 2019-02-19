@@ -43,7 +43,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   requestPermission() async {
-    await PermissionHandler.requestPermissions([PermissionGroup.storage]);
+    await PermissionHandler.requestPermissions(permissions);
   }
 
   @override
@@ -71,25 +71,7 @@ class _SplashPageState extends State<SplashPage> {
                   style: TextStyle(fontSize: 12, color: Colors.black87),
                 )
               ],
-            )
-            /*Column(
-              children: <Widget>[
-                CircularProgressIndicator(
-                  strokeWidth: 2.0,
-                  backgroundColor: Quepal.end,
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  App.VERSION,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 10, color: Colors.black12),
-                )
-              ],
-            )
-            */
-            ),
+            )),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
