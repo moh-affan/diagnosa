@@ -2,15 +2,9 @@
 
 Tugas Akhir Fajri Yuliana
 
-## Getting Started
+## DIAGNOSA PENYAKIT GIGI DAN MULUT
 
-This project is a starting point for a Flutter application.
+Aplikasi berbasis mobile yang mengadopsi sistem pakar untuk mendiagnosa berbagai macam gejala-gejala penyakit gigi dan mulut
 
-A few resources to get you started if this is your first Flutter project:
+Metode yang digunakan : Forward Chaining
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
