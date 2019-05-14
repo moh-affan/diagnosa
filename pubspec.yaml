@@ -53,6 +53,17 @@ flutter:
     - images/diagnosa.jpg
     - images/menu_diagnosa.png
     - images/menu_penyakit.png
+    - images/p001.jpg
+    - images/p002.jpg
+    - images/p003.jpg
+    - images/p004.jpg
+    - images/p005.jpg
+    - images/p006.jpg
+    - images/p007.jpg
+    - images/p008.jpg
+    - images/p009.jpg
+    - images/p010.jpg
+    - images/p011.jpg
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

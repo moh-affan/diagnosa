@@ -42,6 +42,15 @@ class DetailPenyakitPage extends StatelessWidget {
                 width: 20.0,
                 height: 20.0,
               ),
+              Image.asset(
+                'images/${penyakit.id.toLowerCase()}.jpg',
+                width: 150.0,
+                height: 150.0,
+              ),
+              SizedBox(
+                width: 20.0,
+                height: 20.0,
+              ),
               Text(
                 "Gejala-Gejala",
                 style: TextStyle(

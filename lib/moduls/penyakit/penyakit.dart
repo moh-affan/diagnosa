@@ -31,6 +31,8 @@ class _PenyakitPageState extends State<PenyakitPage>
 
   initData() async {
     var p = await master.penyakit();
+    await master.gejalaPenyakit();
+    await master.gejala();
     setState(() {
       penyakit = p;
     });
