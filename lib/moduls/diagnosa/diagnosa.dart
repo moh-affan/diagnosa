@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:diagnosa/moduls/beranda/beranda.dart';
 import 'package:diagnosa/moduls/diagnosa/data_master.dart';
 import 'package:diagnosa/moduls/penyakit/detail_penyakit.dart';
 import 'package:diagnosa/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
+// import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
+import 'package:sweet_alert_dialogs/sweet_alert_dialogs.dart';
 
 class DiagnosaPage extends StatefulWidget {
   DiagnosaPage({Key key, this.title}) : super(key: key);
@@ -45,52 +47,128 @@ class _DiagnosaPageState extends State<DiagnosaPage>
   }
 
   void _askQuestion(String gejalaId, String question) async {
-    SweetAlert.dialog(
-      type: AlertType.NORMAL,
-      cancelable: true,
-      title: "Diagnosa Penyakit Anda",
-      content: "Apakah $question ?",
-      showCancel: true,
-      cancelButtonText: "Tidak",
-      confirmButtonText: "Ya",
-      closeOnConfirm: false,
-      closeOnCancel: false,
-    ).then((value) {
-      if (value) {
-        //Jawaban Iya
-        gejalaPenyakit[gejalaId]
-            .forEach((penyakitId) => _answerMap[penyakitId] += 1);
-      } else {
-        //Jawaban Tidak
-      }
-      //tampilkan dialog selanjutnya atau munculkan hasil diagnosa
-      _answerMap.forEach(_findDiagnozed);
-      if (_diagnozed == '') {
-        SweetAlert.close(closeWithAnimation: true);
-        _askQuestion(gejala.keys.toList()[++_currentQestion],
-            gejala.values.toList()[_currentQestion]);
-      } else {
-        SweetAlert.close(closeWithAnimation: true);
-        final hasil = penyakit[_diagnozed];
-        SweetAlert.dialog(
-          type: AlertType.SUCCESS,
-          cancelable: true,
-          title: "Hasil Diagnosa",
-          content:
-              "Berdasarkan gejala-gejala yang telah Anda jawab, kami mendiagnosa bahwa Anda mengalami : $hasil",
-          showCancel: true,
-          closeOnConfirm: false,
-          cancelButtonText: "Tutup",
-          confirmButtonText: "Solusi",
-        ).then((value) {
-          if (value) {
-            SweetAlert.close(closeWithAnimation: true);
-            viewDetail(_diagnozed);
-          }
-          // Navigator.pop(context);
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return RichAlertDialog(
+            alertTitle: richTitle("Diagnosa Penyakit Anda"),
+            alertSubtitle: richSubtitle("Apakah $question ?"),
+            alertType: RichAlertType.SUCCESS,
+            actions: <Widget>[
+              FlatButton(
+                color: Colors.green,
+                textColor: Colors.white,
+                child: Text("YA"),
+                onPressed: () {
+                  gejalaPenyakit[gejalaId]
+                      .forEach((penyakitId) => _answerMap[penyakitId] += 1);
+                  Navigator.pop(context);
+                },
+              ),
+              VerticalDivider(
+                width: 50,
+              ),
+              FlatButton(
+                color: Colors.red,
+                textColor: Colors.white,
+                child: Text("TIDAK"),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamedAndRemoveUntil(context, BerandaPage.tag,
+                      (Route<dynamic> route) => false);
+                },
+              ),
+            ],
+          );
         });
-      }
-    });
+    _answerMap.forEach(_findDiagnozed);
+    if (_diagnozed == '') {
+      _askQuestion(gejala.keys.toList()[++_currentQestion],
+          gejala.values.toList()[_currentQestion]);
+    } else {
+      final hasil = penyakit[_diagnozed];
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return RichAlertDialog(
+              alertTitle: richTitle("Hasil Diagnosa"),
+              alertSubtitle: Text(
+                "Berdasarkan gejala-gejala yang telah Anda jawab, kami mendiagnosa bahwa Anda mengalami : $hasil",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.grey,
+                ),
+              ),
+              alertType: RichAlertType.SUCCESS,
+              actions: <Widget>[
+                FlatButton(
+                  color: Colors.red,
+                  textColor: Colors.white,
+                  child: Text("Tutup"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                FlatButton(
+                  color: Colors.green,
+                  textColor: Colors.white,
+                  child: Text("Solusi"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    viewDetail(_diagnozed);
+                  },
+                ),
+              ],
+            );
+          });
+    }
+    // SweetAlert.dialog(
+    //   type: AlertType.NORMAL,
+    //   cancelable: true,
+    //   title: "Diagnosa Penyakit Anda",
+    //   content: "Apakah $question ?",
+    //   showCancel: true,
+    //   cancelButtonText: "Tidak",
+    //   confirmButtonText: "Ya",
+    //   closeOnConfirm: false,
+    //   closeOnCancel: false,
+    // ).then((value) {
+    //   if (value) {
+    //     //Jawaban Iya
+    //     gejalaPenyakit[gejalaId]
+    //         .forEach((penyakitId) => _answerMap[penyakitId] += 1);
+    //   } else {
+    //     //Jawaban Tidak
+    //   }
+    //   //tampilkan dialog selanjutnya atau munculkan hasil diagnosa
+    //   _answerMap.forEach(_findDiagnozed);
+    //   if (_diagnozed == '') {
+    //     SweetAlert.close(closeWithAnimation: true);
+    //     _askQuestion(gejala.keys.toList()[++_currentQestion],
+    //         gejala.values.toList()[_currentQestion]);
+    //   } else {
+    //     SweetAlert.close(closeWithAnimation: true);
+    //     final hasil = penyakit[_diagnozed];
+    //     SweetAlert.dialog(
+    //       type: AlertType.SUCCESS,
+    //       cancelable: true,
+    //       title: "Hasil Diagnosa",
+    //       content:
+    //           "Berdasarkan gejala-gejala yang telah Anda jawab, kami mendiagnosa bahwa Anda mengalami : $hasil",
+    //       showCancel: true,
+    //       closeOnConfirm: false,
+    //       cancelButtonText: "Tutup",
+    //       confirmButtonText: "Solusi",
+    //     ).then((value) {
+    //       if (value) {
+    //         SweetAlert.close(closeWithAnimation: true);
+    //         viewDetail(_diagnozed);
+    //       }
+    //       // Navigator.pop(context);
+    //     });
+    //   }
+    // });
   }
 
   viewDetail(String idPenyakit) async {
@@ -100,9 +178,9 @@ class _DiagnosaPageState extends State<DiagnosaPage>
       context,
       MaterialPageRoute(
         builder: (context) => DetailPenyakitPage(
-              penyakit: p,
-              gejala: g.values.join('\n'),
-            ),
+          penyakit: p,
+          gejala: g.values.join('\n'),
+        ),
       ),
     );
   }

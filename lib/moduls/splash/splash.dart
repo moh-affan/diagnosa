@@ -36,14 +36,14 @@ class _SplashPageState extends State<SplashPage> {
 
   checkPermissions() async {
     PermissionStatus permissionStatus =
-        await PermissionHandler.checkPermissionStatus(PermissionGroup.storage);
+        await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
     if (permissionStatus != PermissionStatus.granted)
       permissions.add(PermissionGroup.storage);
     await requestPermission();
   }
 
   requestPermission() async {
-    await PermissionHandler.requestPermissions(permissions);
+    await PermissionHandler().requestPermissions(permissions);
   }
 
   @override
