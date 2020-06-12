@@ -16,7 +16,6 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  List<PermissionGroup> permissions = new List<PermissionGroup>();
 
   void _navigateNext() {
     Navigator.of(context).pushReplacementNamed(BerandaPage.tag);
@@ -35,16 +34,15 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   checkPermissions() async {
-    PermissionStatus permissionStatus =
-        await PermissionHandler.checkPermissionStatus(PermissionGroup.storage);
-    if (permissionStatus != PermissionStatus.granted)
-      permissions.add(PermissionGroup.storage);
-    await requestPermission();
+    if (await Permission.storage.request().isGranted) {
+      // Either the permission was already granted before or the user just granted it.
+//      await requestPermission();
+    }
   }
 
-  requestPermission() async {
-    await PermissionHandler.requestPermissions(permissions);
-  }
+//  requestPermission() async {
+//    await PermissionHandler.requestPermissions(permissions);
+//  }
 
   @override
   Widget build(BuildContext context) {

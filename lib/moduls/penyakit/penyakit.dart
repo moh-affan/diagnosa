@@ -78,7 +78,7 @@ class _PenyakitPageState extends State<PenyakitPage>
                     Fluttertoast.showToast(
                         msg: penyakit.values.toList()[index],
                         toastLength: Toast.LENGTH_SHORT,
-                        timeInSecForIos: 1,
+//                        timeInSecForIos: 1,
                         backgroundColor: Colors.lightGreen,
                         textColor: Colors.white);
                   },
