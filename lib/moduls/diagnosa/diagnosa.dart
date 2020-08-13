@@ -33,6 +33,19 @@ class _DiagnosaPageState extends State<DiagnosaPage>
     'P010': 0,
     'P011': 0
   };
+  var _countMap = {
+    'P001': 0,
+    'P002': 0,
+    'P003': 0,
+    'P004': 0,
+    'P005': 0,
+    'P006': 0,
+    'P007': 0,
+    'P008': 0,
+    'P009': 0,
+    'P010': 0,
+    'P011': 0
+  };
   var _currentQestion = 0;
   var _diagnozed = '';
   var master = Master();
@@ -42,6 +55,16 @@ class _DiagnosaPageState extends State<DiagnosaPage>
 
   void _findDiagnozed(String k, int v) {
     if (v >= 4) _diagnozed = k;
+  }
+
+  String _findMost() {
+    var max = _answerMap.values
+        .reduce((current, next) => current > next ? current : next);
+    var diagz = '';
+    _answerMap.forEach((key, value) {
+      if (value == max) diagz = key;
+    });
+    return diagz;
   }
 
   void _askQuestion(String gejalaId, String question) async {
@@ -65,6 +88,12 @@ class _DiagnosaPageState extends State<DiagnosaPage>
       }
       //tampilkan dialog selanjutnya atau munculkan hasil diagnosa
       _answerMap.forEach(_findDiagnozed);
+      var most = _findMost();
+      if (most != '') {
+        print(most);
+        var mostCountGejala = _countMap[most];
+        if (mostCountGejala == _answerMap[most]) _diagnozed = most;
+      }
       if (_diagnozed == '') {
         SweetAlert.close(closeWithAnimation: true);
         _askQuestion(gejala.keys.toList()[++_currentQestion],
@@ -100,9 +129,9 @@ class _DiagnosaPageState extends State<DiagnosaPage>
       context,
       MaterialPageRoute(
         builder: (context) => DetailPenyakitPage(
-              penyakit: p,
-              gejala: g.values.join('\n'),
-            ),
+          penyakit: p,
+          gejala: g.values.join('\n'),
+        ),
       ),
     );
   }
@@ -119,6 +148,9 @@ class _DiagnosaPageState extends State<DiagnosaPage>
     gejala = await master.gejala();
     penyakit = await master.penyakit();
     gejalaPenyakit = await master.gejalaPenyakit();
+    gejalaPenyakit.forEach((gejalaId, penyakit) {
+      penyakit.forEach((penyakitId) => _countMap[penyakitId] += 1);
+    });
   }
 
   @override
